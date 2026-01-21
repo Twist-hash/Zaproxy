@@ -1,17 +1,25 @@
-name: Simple Zap proxy scan
+name: ZAP Scan on Juice Shop
 
-on: [push]
+on:
+  workflow_dispatch:   # run manually from GitHub Actions tab
+  push:
+    branches: [ "main" ]
 
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
-    name: Scan the webapplication
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.7.0
         with:
-          ref: master
-      - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.15.0
+          target: 'https://juice-shop.herokuapp.com'
+          cmd_options: '-a -j -r zap-report.html'
+
+      - name: Upload ZAP Report
+        uses: actions/upload-artifact@v3
         with:
-          target: 'https://www.zaproxy.org'
+          name: zap-report
+          path: zap-report.html
