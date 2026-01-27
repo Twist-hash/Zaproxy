@@ -1,4 +1,4 @@
-name: ZAP Scan on Juice Shop
+name: ZAP Scan on demo code
 
 on:
   workflow_dispatch:   # run manually from GitHub Actions tab
@@ -15,7 +15,7 @@ jobs:
       - name: Run ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.7.0
         with:
-          target: 'https://juice-shop.herokuapp.com'
+          target: 'https://github.com/Twist-hash/sonarcloud_sast.git'
           cmd_options: '-a -j -r zap-report.html'
 
       - name: Upload ZAP Report
